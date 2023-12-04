@@ -21,8 +21,4 @@ fn main() {
     // Even we can change type.
     let spaces = "   ";
     let spaces = spaces.len();
-
-
-    
-   
 }
