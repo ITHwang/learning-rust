@@ -99,9 +99,83 @@ fn main() {
     // panicking
     // let element = a[index];
     // println!("The value of the element at index {index} is: {element}");
-    
-    
 
+    // Functions
+    // In function signatures, you must declare the type of each parameter.
+    fn print_labeled_measurement(value: i32, unit_label: char) {
+        println!("The measurement is: {value}{unit_label}");
+    }
+    // print_labeled_measurement(5, 'h');
     
+    /*
+    - Rust is an expression-based language.
+    - Statements are instructions that perform some action and do not return a value.
+    - Expressions evaluate to a resultant value. Let’s look at some examples.
+    */
+    let y = { // The right side also is an expression.
+        let x = 3;
+        x + 1 // Expressions do not include ending semicolons.
+    }; 
+    // println!("The value of y is: {y}");
+
+    // If we'll return a value, we must declare their type after an arrow (->).
+
+    // Control Flow
+    
+    // `if` condition must be a bool
+    
+    // `if` also is an expression, 
+    //     we can use it on the right side of a let statement to assign the outcome to a variable
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+    // println!("The value of number is: {number}");
+
+    // The values that have the potential to be results from each arm of the if must be the same type.
+    // error[E0308]: `if` and `else` have incompatible types.
+    // let number = if condition { 5 } else { "six" };
+
+    // loop(expression)
+    let mut counter = 0;
+    let result = loop {
+        counter += 1;
+
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+
+    // Loop Labels to Disambiguate Between Multiple Loops
+        let mut count = 0;
+        'counting_up: loop { // loop label
+            println!("count = {count}");
+            let mut remaining = 10;
+
+            loop {
+                println!("remaining = {remaining}");
+                if remaining == 9 {
+                    break;
+                }
+                if count == 2 {
+                    break 'counting_up; // Statement will exit the outer loop.
+                }
+                remaining -= 1;
+            }
+
+            count += 1;
+        }
+        println!("End count = {count}");
+
+    // while
+    let mut number = 3;
+    while number != 0 {
+        println!("{number}!");
+        number -= 1;
+    }
+
+    // for
+    let a = [10, 20, 30, 40, 50];
+    for element in a {
+        println!("the value is: {element}");
+    }
     
 }
