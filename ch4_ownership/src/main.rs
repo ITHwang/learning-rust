@@ -56,9 +56,19 @@ fn main() {
 
     /*
     Dangling References
+    - Rust prevents a dangling reference with a compile-time error by enforcing to specify the lifetime parameter.
+    */
+
+    /*
+    The rules of references
+    1) At any given time, you can have either one mutable reference or any number of immutable references.
+    2) References must always be valid.
     */
 
     /*
     5. The Slice Type
+
+    - `&str` is a slice pointing to the specific point of the binary.
+    - String literal is &str, immutable.
     */
 }
