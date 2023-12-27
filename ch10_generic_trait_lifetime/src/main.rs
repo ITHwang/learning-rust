@@ -200,4 +200,90 @@ fn main() {
     // 3. Fix the problems in compile time.
 
     // 3. Lifetimes
+
+    // 3.1. Definition
+    
+    // Lifetime is the scope for which that reference is valid.
+    // Rust requires us to annotate the relationships using generic lifetime parameters
+    //     to ensure that actual references used at runtime will definitely be valid.
+    // The main aim of lifetime is to prevent dangling references.
+
+    // 3.2. The Borrow Checker
+
+    // A borrow checker compares scopes to determine whether all borrows are valid.
+
+    // let r;
+    
+    // {
+    //     let x = 5;
+    //     r = &x;
+    // }
+    
+    // println!("r: {}", r);
+
+    // 3.2. Syntax
+
+    // &i32
+    // &'a i32
+    // &'a mut i32
+
+    // 3.3. Lifetime Annotations in Function Signatures
+
+    // Lifetime syntax is about connecting the lifetimes of various parameters and return values of functions.
+    // The lifetime of the returned reference is the same as the smaller of the lifetimes of the values referred to by the arguments. 
+    // Note: We're not changing the lifetimes of any values passed in or returned.
+    fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
+
+    // When we pass concrete references to `longest`,
+    //     the generic lifetime 'a will get the concrete lifetime that is equal to the smaller of the lifetimes of x and y.
+    
+    // let string1 = String::from("hello");
+    // let result;
+    // {
+    //     let string2 = String::from("world!!!");
+    //     result = longest(string1.as_str(), string2.as_str());
+    // }
+    // println!("The longest string is {}", result);
+
+    // The lifetime parameter for the return type needs to match the lifetime parameter for one of the parameters.
+    
+    // fn longest_2<'a>(x: &str, y: &str) -> &'a str {
+    //     let result = String::from("really long string");
+    //     result.as_str()
+    // }
+
+    // 3.4. Lifetime Annotations in Struct Definitions
+
+    struct ImportantExcerpt<'a> {
+        part: &'a str,
+    }
+
+    let novel = String::from("Call me Ishmael. Some years ago...");
+    let first_sentence = novel.split('.').next().expect("Couldn't find a '.'");
+    // The instance of `ImportantExcerpt` can't outlive the reference it holds in its `part` field.
+    let i = ImportantExcerpt { 
+        part: first_sentence,
+    };
+
+    // 3.5. Lifetime Elision
+
+    /*
+    - The borrow checker could infer the lifetimes in these situations and wouldn't need explicit annotations.
+    - If the compiler gets to the end of the three lifetime elision rules and there are still references for which it can't figure out lifetimes,
+        the compiler will stop with an error.(`fn` and `impl`)
+
+    1nd rule: the compiler assigns a lifetime parameter to each parameter that's a reference.
+    2nd rule: if there is exactly one input lifetime parameter, that lifetime is assigned to all output lifetime parameters.
+    3rd rule: if there are multiple input lifetime parameters, but one of them is `&self` or `&mut self` because this is a method,
+              the lifetime of `self` is assigned to all output lifetime parameters.
+    */
+    
+    // todo: ex..
+    
 }
