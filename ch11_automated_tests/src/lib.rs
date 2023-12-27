@@ -4,7 +4,8 @@ Rust does all the type checking and borrow checking,
 but can't check that this function will do precisely what we intend.
 */
 
-#[cfg(test)]
+// cfg(): configuration
+#[cfg(test)] // tells Rust to compile and run the test code "only when you run `cargo test`".
 mod tests {
     use super::*;
 
@@ -101,14 +102,43 @@ mod tests {
 
     /*
     1) Running Tests in Parallel or Consecutively
+    - By default, Tests would interfered with each other while running in parallel.
+    - $ cargo test -- --test-threads=1
+    
     2) Showing Function Output
+    - By default, if we call `println!` in a test and the test passes,
+      we won't see the `println!` output in the terminal.
+    - $ cargo test -- --show-output
+    
     3) Running Single Tests
+    - $ cargo test {test_name}
+    
     4) Filtering to Run Multiple Tests
+    - $ cargo test {part_of_a_test_name}
+    
     5) Ignoring Some Tests
+    - Add #[ignore] attribute
+    - $ cargo test -- --ignored (only ignored tests)
+    - $ cargo test -- --include-ignored (all tests)
     */
 
     // Test Organization
-    // ...
+
+    // Unit Tests
+    // The purpose of unit tests is to test each unit of code in isolation from the rest of the code.
+
+    // Rust's privacy rules do allow you to test private functions.
+    #[test]
+    fn internal() {
+        assert_eq!(4, internal_adder(2, 2));
+    }
+
+    // Integration Tests
+    // The purpose of integration tests is to test whether many parts of your library work together correctly.
+
+    // A binary crate can't create integration tests.
+    // Only library crates expose functions that other crates can use.
+    // Binary crates are meant to be run on their own.
 }
 
 #[derive(Debug)]
@@ -142,4 +172,8 @@ impl Guess {
         }
         Guess { value }
     }
+}
+
+fn internal_adder(left: i32, right: i32) -> i32 {
+    left + right
 }
