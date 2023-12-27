@@ -284,6 +284,54 @@ fn main() {
               the lifetime of `self` is assigned to all output lifetime parameters.
     */
     
-    // todo: ex..
-    
+    /*
+    ex1)
+    fn first_word(s: &str) -> &str {   =>   PASS
+
+    ex2)
+    fn longest(x: &str, y: &str) -> &str {   =>   FAIL
+    */
+
+    // 3.6. Lifetime Annotations in Method Definitions
+
+    /*
+    - Lifetime names for struct fields always need to be declared
+        after the `impl` keyword and then used after the struct's name.
+    */
+    impl<'a> ImportantExcerpt<'a> {
+        fn level(&self) -> i32 {
+            3
+        }
+
+        fn announce_and_return_part(&self, announcement: &str) -> &str {
+            println!("Attention please: {}", announcement);
+            self.part
+        }
+    }
+
+    // 3.7. The Static Lifetime
+
+    /*
+    `'static`: the affected reference can live for the entire duration of the program.
+    */
+    let s: &'static str = "I have a static lifetime"; // stored in the program's binary.
+    // In fact, the lifetime of all string literals is `'static`.
+
+    // 3.8. Summary
+
+    fn longest_with_an_announcement<'a, T> (
+        x: &'a str,
+        y: &'a str,
+        ann: T,
+    ) -> &'a str
+    where
+        T: Display,
+    {
+        println!("Announcement: {}", ann);
+        if x.len() > y.len() {
+            x
+        } else {
+            y
+        }
+    }
 }
