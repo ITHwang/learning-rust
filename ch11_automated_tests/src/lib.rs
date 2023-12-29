@@ -79,7 +79,7 @@ mod tests {
     }
 
     #[test]
-    // check if out code handles error conditions correctly.
+    // check if our code handles error conditions correctly.
     // A `should_panic` test would pass even if the test panics for a different reason.
     // To make it more precise, we can add an optional `expected` argument.
     #[should_panic(expected = "Guess value must be between 1 and 100, got 101")] 
@@ -97,7 +97,6 @@ mod tests {
         }
     }
     
-    // Todo...
     // Controlling How Tests Are Run
 
     /*

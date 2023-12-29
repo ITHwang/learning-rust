@@ -38,6 +38,7 @@ fn main() {
     // Option<T>, Result<T, E> in prelude.
 
     // 1.4. Method Definition
+    #[derive(Debug)]
     struct Point<X1, Y1> {
         x: X1,
         y: Y1,
@@ -56,6 +57,7 @@ fn main() {
     let p1 = Point { x: 5, y: 10.0 };
     let p2 = Point { x: "hello", y: 'c' };
     let p3 = p1.mixup(p2);
+    // println!("{:#?}", p3);
 
     // 1.5. Performance of Generics
     /*
@@ -118,7 +120,7 @@ fn main() {
     But we can't implement external traits on external types.
     ex1. implement `Display`(external) on `Vec<T>`(external)
 
-    Without th rule, two crates could implement the same trait for the same type, and Rust wouldn't know which implementation to use.
+    Without the rule, two crates could implement the same trait for the same type, and Rust wouldn't know which implementation to use.
     */
 
     // 2.2. Trait as Parameters
@@ -166,7 +168,6 @@ fn main() {
         }
     }
 
-    // Blanket Implementations
     struct Pair<T> {
         x: T,
         y: T,
@@ -179,6 +180,7 @@ fn main() {
     }
 
     // We can conditionally implement a trait for any type that implements another trait.
+    // Blanket Implementations
     impl<T: Display + PartialOrd> Pair<T> {
         fn cmp_display(&self) {
             if self.x >= self.y {
