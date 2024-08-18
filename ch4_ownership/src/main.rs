@@ -29,10 +29,10 @@ fn main() {
     */
 
     let s1 = String::from("hello");
-    let s2 = s1; // moved to s2.(s1 is invalid.)
+    let _s2 = s1; // moved to s2.(s1 is invalid.)
 
     let s1 = String::from("hello");
-    let s2 = s1.clone(); // deepcopy
+    let _s2 = s1.clone(); // deepcopy
 
     // If a type implements the `Copy` trait, variables are not moved, but deep-copied.
     // The primitive types basically implement the `Copy` trait.

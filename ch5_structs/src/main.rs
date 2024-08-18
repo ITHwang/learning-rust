@@ -2,35 +2,35 @@ fn main() {
     // Structs: fields, key:value pairs
     #[derive(Debug)]
     struct User {
-        active: bool,
-        username: String,
+        _active: bool,
+        _username: String,
         email: String,
-        sign_in_count: u64,
+        _sign_in_count: u64,
     }
 
     // Instance
     // Note: Rust doesn't allow us to mark only certain fields as mutable.
     let mut user1 = User {
         email: String::from("zzizzonHwang@example.com"),
-        username: String::from("zzizzonHwang"),
-        active: true,
-        sign_in_count: 1,
+        _username: String::from("zzizzonHwang"),
+        _active: true,
+        _sign_in_count: 1,
     };
     user1.email = String::from("zzizzonHwang123@example.com"); // dot notation
 
     // The field init shorthand
-    fn build_user(email: String, username: String) -> User {
+    fn _build_user(email: String, _username: String) -> User {
         User {
             email,
-            username,
-            active: true,
-            sign_in_count: 1,
+            _username,
+            _active: true,
+            _sign_in_count: 1,
         }
     }
 
     // update
     // Note: the struct update syntax uses = like an assignment.
-    let user2 = User {
+    let _user2 = User {
         email: String::from("zzizzonKang@example.com"),
         ..user1
     };
@@ -45,18 +45,22 @@ fn main() {
     struct Color(i32, i32, i32);
     struct Point(i32, i32, i32);
 
-    let black = Color(0, 0, 0);
+    // let _black = Color(0, 0, 0);
     let white = Color(255, 255, 255);
     let origin = Point(0, 0, 0);
 
+    println!("{} {} {}", origin.0, origin.1, origin.2); // indexing
+
     // println!("{} {}", black.0, white.2); // indexing
     let Color(red, green, blue) = white; // destructing
-    // println!("red: {}, green: {}, blue: {}", red, green, blue);
+
+    println!("red: {}, green: {}, blue: {}", red, green, blue);
 
     // Unit-like structs
     // Unit-like structs are structs that have no fields.
-    struct AlwaysEqual; // We'll later implement this struct.
-    let subject = AlwaysEqual;
+    struct _AlwaysEqual; // We'll later implement this struct.
+
+    // let subject = AlwaysEqual;
 
     // Fields as references
     // struct User2 {
@@ -85,14 +89,14 @@ fn main() {
     But structs don't have a provided implementation of `Display`.
 
     {:?} or {:#?} tells `println!()` to use formatting known as `Debug` instead of Display.
-    #[derive(Debug)] helps explicitly opt in to make a functionality to pring out debugging info.
+    #[derive(Debug)] helps explicitly opt in to make a functionality to bring out debugging info.
     */
     #[derive(Debug)]
     struct Rectangle {
         width: u32,
         height: u32,
     }
-    
+
     let rect1 = Rectangle {
         width: 30,
         height: 50,
@@ -119,10 +123,10 @@ fn main() {
             }
         }
     }
-    // println!(
-    //     "A square rectangle of side length 5: {:#?}",
-    //     Rectangle::square(5) // Note that `::` is used for both associated funcs and namespaces.
-    // );
+    println!(
+        "A square rectangle of side length 5: {:#?}",
+        Rectangle::square(5) // Note that `::` is used for both associated funcs and namespaces.
+    );
 
     // `dbg!()` macro takes ownership of an expression and prints to `stderr`.
     // c.f. `println!()` macro takes a reference and prints to `stdout`.

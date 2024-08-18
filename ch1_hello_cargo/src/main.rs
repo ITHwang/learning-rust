@@ -22,7 +22,7 @@ But we can easily compile, build, release using "Cargo" which is a rust build to
     - src
         - main.rs
     - Cargo.toml(config file)
-    
+
 - `cargo build`
     - compiles the project
         - Cargo.lock: keeps track of versions of dependencies.
