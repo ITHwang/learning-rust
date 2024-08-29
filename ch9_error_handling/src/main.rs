@@ -1,8 +1,8 @@
-use std::error::Error;
+// use std::error::Error;
 
 // Box<dyn Error>: trait object which means "any kind of error"(Chap 17)
 /*
-When a main function returns `Result<(), E>`, 
+When a main function returns `Result<(), E>`,
 exit with a value of 0 if main returns Ok.
 exit with a nonzero value if main returns Err.
 */
@@ -38,43 +38,43 @@ fn main() {
     use std::io::ErrorKind;
 
     // A normal way
-    // let greeting_file_result = File::open("hello.txt");
-    // let greeting_file = match greeting_file_result {
-    //     Ok(file) => file,
-    //     Err(error) => match error.kind() {
-    //         ErrorKind::NotFound => match File::create("hello.txt") {
-    //             Ok(fc) => fc,
-    //             Err(e) => panic!("Problem creating the file: {:?}", e),
-    //         },
-    //         other_error => panic!("Problem opening the file: {:?}", other_error),
-    //     },
-    // };
+    let greeting_file_result = File::open("hello.txt");
+    let _greeting_file = match greeting_file_result {
+        Ok(file) => file,
+        Err(error) => match error.kind() {
+            ErrorKind::NotFound => match File::create("hello.txt") {
+                Ok(fc) => fc,
+                Err(e) => panic!("Problem creating the file: {:?}", e),
+            },
+            other_error => panic!("Problem opening the file: {:?}", other_error),
+        },
+    };
 
     // Using closers is more clear way.
-    // let greeting_file = File::open("hello.txt").unwrap_or_else(|error| {
-    //     if error.kind() == ErrorKind::NotFound {
-    //         File::create("hello.txt").unwrap()
-    //     } else {
-    //         panic!("Problem opening the file: {:?}", error);
-    //     }
-    // });
+    let _greeting_file = File::open("hello.txt").unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            File::create("hello.txt").unwrap()
+        } else {
+            panic!("Problem opening the file: {:?}", error);
+        }
+    });
 
     // unwrap
     // If the `Result` is the `Ok`, `unwrap` will return the value inside the `Ok`.
     // If `Err`, it will call the `panic!` macro.
-    // let greeting_file = File::open("hello.txt").unwrap();
+    let _greeting_file = File::open("hello.txt").unwrap();
 
     // expect
     // Unlike `unwrap`, `expect` can provide a custom error message.
     // `expect` can give more context than `unwrap`.
-    // let greeting_file = File::open("hello.txt").expect("Problem opening the file");
+    let _greeting_file = File::open("hello.txt").expect("Problem opening the file");
 
     /*
     3. Propagating errors(returning an error to the calling code)
     */
     use std::io::{self, Read};
-    
-    fn read_username_from_file() -> Result<String, io::Error> {
+
+    fn _read_username_from_file() -> Result<String, io::Error> {
         let username_file_result = File::open("hello.txt");
 
         let mut username_file = match username_file_result {
@@ -97,7 +97,7 @@ fn main() {
     // the `?` operator
     // if the function returns Ok, it will return the value inside the Ok.
     // if the function returns Err, it will return the error inside the Err.
-    fn read_username_from_file2() -> Result<String, io::Error> {
+    fn _read_username_from_file2() -> Result<String, io::Error> {
         let mut username_file = File::open("hello.txt")?;
         let mut username = String::new();
         username_file.read_to_string(&mut username)?;
@@ -108,21 +108,21 @@ fn main() {
     // This is useful when a function returns one error type.
 
     // shorten by chaining method calls
-    fn read_username_from_file3() -> Result<String, io::Error> {
+    fn _read_username_from_file3() -> Result<String, io::Error> {
         let mut username = String::new();
         File::open("hello.txt")?.read_to_string(&mut username)?;
         Ok(username)
     }
     // Already implemented
     use std::fs;
-        
-    fn read_username_from_file4() -> Result<String, io::Error> {
+
+    fn _read_username_from_file4() -> Result<String, io::Error> {
         fs::read_to_string("hello.txt")
     }
 
     // To use `?` in a function, the function must return a `Result` or  a `Option`.
     // And you can't mix and match `Result` and `Option`.
-    fn last_char_of_first_line(text: &str) -> Option<char> {
+    fn _last_char_of_first_line(text: &str) -> Option<char> {
         text.lines().next()?.chars().last()
     }
 
@@ -155,7 +155,7 @@ fn main() {
     - when we ensure the `Result` will have an Ok value but the compiler can't understand why(must document the reason)
     */
     use std::net::IpAddr;
-    let home: IpAddr = "127.0.0.1" // the compiler isn't smart enough to know that this is valid.
+    let _home: IpAddr = "127.0.0.1" // the compiler isn't smart enough to know that this is valid.
         .parse()
         .expect("Invalid IP address");
 
@@ -179,22 +179,23 @@ fn main() {
     //     }
     // }
 
-    pub struct Guess {
-        value: i32,
-    }
+    // pub struct Guess {
+    //     value: i32,
+    // }
 
-    impl Guess {
-        pub fn new(value: i32) -> Guess {
-            if value < 1 || value > 100 {  // check whether to violate the contract
-                panic!("Out of range: {}.", value);
-            }
+    // impl Guess {
+    //     pub fn new(value: i32) -> Guess {
+    //         if value < 1 || value > 100 {
+    //             // check whether to violate the contract
+    //             panic!("Out of range: {}.", value);
+    //         }
 
-            Guess{ value }
-        }
+    //         Guess { value }
+    //     }
 
-        pub fn value(&self) -> i32 { // self.value is private.
-            self.value
-        }
-    }
-    
+    //     pub fn value(&self) -> i32 {
+    //         // self.value is private.
+    //         self.value
+    //     }
+    // }
 }
