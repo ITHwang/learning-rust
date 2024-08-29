@@ -1,7 +1,7 @@
 fn main() {
     // 1. Vectors
-    
-    let v1: Vec<i32> = Vec::new(); // a new empty vector
+
+    let _v1: Vec<i32> = Vec::new(); // a new empty vector
     let mut v2 = vec![1, 2, 3]; // a vector initialized with elements
 
     v2.push(4); // updating a vector
@@ -10,7 +10,7 @@ fn main() {
     v2.push(7);
 
     // reading elements
-    let third: &i32 = &v2[2];
+    let _third: &i32 = &v2[2];
     let third: Option<&i32> = v2.get(2);
     match third {
         Some(third) => println!("The third element is {}", third),
@@ -19,7 +19,7 @@ fn main() {
 
     // When updating and reading, you can't have mutable and immutable references to the same scope.
     let mut v = vec![1, 2, 3];
-    let first = &v[0];
+    let _first = &v[0];
     v.push(5);
     // println!("The first element is {}", first); // causes an error
 
@@ -37,27 +37,27 @@ fn main() {
     println!("{:?}", v);
 
     // Using an enum to store multiple types
-    enum SpreadsheetCell {
-        Int(i32),
-        Float(f64),
-        Text(String),
-    }
+    // enum SpreadsheetCell {
+    //     Int(i32),
+    //     Float(f64),
+    //     Text(String),
+    // }
 
-    let row = vec![
-        SpreadsheetCell::Int(3),
-        SpreadsheetCell::Float(10.12),
-        SpreadsheetCell::Text(String::from("blue")),
-    ];
+    // let _row = vec![
+    //     SpreadsheetCell::Int(3),
+    //     SpreadsheetCell::Float(10.12),
+    //     SpreadsheetCell::Text(String::from("blue")),
+    // ];
 
     // 2. Strings
 
     // The `String` and the string slice `&str` are UTF-8 encoded.
 
-    // creating 
-    let mut s = String::new();
+    // creating
+    let mut _s = String::new();
     let data = "Hello, world!";
-    let mut s = data.to_string();
-    let mut s = String::from("Hello, world!");
+    let mut _s = data.to_string();
+    let mut _s = String::from("Hello, world!");
 
     // updating
     let mut s = String::from("foo");
@@ -71,19 +71,19 @@ fn main() {
     let s1 = String::from("Hello, ");
     let s2 = String::from("world!");
     // The ownership of s1 is moved to s3 and s2 is still valid.
-    let s3 = s1 + &s2;
-    
+    let _s3 = s1 + &s2;
+
     // format!
     let s1 = String::from("Hello, ");
     let s2 = String::from("world!");
-    let s3 = format!("{}{}", s1, s2);
+    let _s3 = format!("{}{}", s1, s2);
 
     /*
     String from Rust's perspective:
     - bytes: `String` is a wrapper over a `Vec<u8>`.
     - scalar values: Unicode scalar value in a string takes 2 bytes of storage.
     - grapheme clusters: the closest things to what we would call 'letters'.
-    */ 
+    */
 
     // iterating each char
     for c in "abc".chars() {
@@ -106,7 +106,7 @@ fn main() {
 
     // accessing
     let team_name = String::from("Blue");
-    let score = scores
+    let _score = scores
         .get(&team_name) // get the value associated with the key.
         .copied() // copy the content of the reference.
         .unwrap_or(0); // if the key is not found, set `score` to 0.
@@ -127,7 +127,7 @@ fn main() {
         .entry(String::from("Blue")) // returns an enum `Entry`.
         // If the key is found, return a mutable reference.
         // If the key is not found, insert the value and return it.
-        .or_insert(50); 
+        .or_insert(50);
     scores.entry(String::from("Yellow")).or_insert(50);
 
     // updating the old value
