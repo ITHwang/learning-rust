@@ -1,6 +1,6 @@
 /*
 Rust is designed with a high degree of concern about the correctness of programs.
-Rust does all the type checking and borrow checking, 
+Rust does all the type checking and borrow checking,
 but can't check that this function will do precisely what we intend.
 */
 
@@ -9,7 +9,7 @@ but can't check that this function will do precisely what we intend.
 mod tests {
     use super::*;
 
-    #[test]  // test attribute
+    #[test] // test attribute
     fn it_works() {
         let result = 2 + 2;
         assert_eq!(result, 4);
@@ -34,7 +34,7 @@ mod tests {
         // If the value is `false`, the `assert!` macro calls `panic!`.
         assert!(larger.can_hold(&smaller));
     }
-    
+
     #[test]
     fn smaller_cannot_hold_larger() {
         let larger = Rectangle {
@@ -57,7 +57,7 @@ mod tests {
         // left, right
         assert_eq!(4, add_two(2));
     }
-    
+
     // When we're not sure what a value will be, but we know what the value definitely shouldn't be.
     #[test]
     fn it_adds_two2() {
@@ -70,7 +70,7 @@ mod tests {
     #[test]
     fn greeting_contains_name() {
         let greeting = greeting("John");
-        
+
         assert!(
             greeting.contains("John"),
             "Greeting should contain name, value was {}", // custom message
@@ -82,7 +82,7 @@ mod tests {
     // check if our code handles error conditions correctly.
     // A `should_panic` test would pass even if the test panics for a different reason.
     // To make it more precise, we can add an optional `expected` argument.
-    #[should_panic(expected = "Guess value must be between 1 and 100, got 101")] 
+    #[should_panic(expected = "Guess value must be between 1 and 100, got 101")]
     fn greater_than_100() {
         Guess::new(101);
     }
@@ -96,25 +96,25 @@ mod tests {
             Err(String::from("it failed"))
         }
     }
-    
-    // Controlling How Tests Are Run
+
+    // Controlling How Tests Run
 
     /*
     1) Running Tests in Parallel or Consecutively
     - By default, Tests would interfered with each other while running in parallel.
     - $ cargo test -- --test-threads=1
-    
+
     2) Showing Function Output
     - By default, if we call `println!` in a test and the test passes,
       we won't see the `println!` output in the terminal.
     - $ cargo test -- --show-output
-    
+
     3) Running Single Tests
     - $ cargo test {test_name}
-    
+
     4) Filtering to Run Multiple Tests
     - $ cargo test {part_of_a_test_name}
-    
+
     5) Ignoring Some Tests
     - Add #[ignore] attribute
     - $ cargo test -- --ignored (only ignored tests)

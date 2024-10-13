@@ -1,6 +1,6 @@
 fn main() {
     // 1. Generic types
-    
+
     // generics: abstract stand-in for concrete types or other properties
     /*
     conventions: UpperCamelCase<T>
@@ -34,7 +34,7 @@ fn main() {
     // x and y are both generics but could have different types.
     // let integer_and_float = Point { x: 5, y: 10.0 };
 
-    // 1.3. Enum Deinition
+    // 1.3. Enum Definition
     // Option<T>, Result<T, E> in prelude.
 
     // 1.4. Method Definition
@@ -47,8 +47,8 @@ fn main() {
     // some are declared with the method definition.
     impl<X1, Y1> Point<X1, Y1> {
         fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
-            Point { 
-                x: self.x, 
+            Point {
+                x: self.x,
                 y: other.y,
             }
         }
@@ -69,7 +69,7 @@ fn main() {
     // 2. Traits: Defining Shared Behavior
 
     // 2.1. Trait Definition
-    
+
     // Trait definitions are a way to group method signatures together to define a set of behaviors.
     pub trait Summary {
         fn summarize_author(&self) -> String;
@@ -78,7 +78,7 @@ fn main() {
         fn summarize(&self) -> String {
             // Default Implementation can call other methods in the same trait.
             // The trait only require implementors to specify a small part of it.
-            format!("(Read more from {}...", self.summarize_author())
+            format!("Read more from {}...", self.summarize_author())
         }
     }
 
@@ -88,7 +88,7 @@ fn main() {
         pub author: String,
         pub content: String,
     }
-    
+
     impl Summary for NewsArticle {
         fn summarize_author(&self) -> String {
             format!("#{}", self.author)
@@ -134,32 +134,33 @@ fn main() {
     pub fn notify2<T: Summary>(item1: &T, item2: &T) {
         println!("Breaking news! {}", item1.summarize());
     }
-    
+
     // Multiple Trait Bounds
-    
-    use std::fmt::{Display, Debug};
-    
+
+    use std::fmt::{Debug, Display};
+
     pub fn notify3(item1: &(impl Summary + Display)) {
         println!("Breaking news! {}", item1.summarize());
     }
-    
+
     pub fn notify4<T: Summary + Display>(item1: &T) {
         println!("Breaking news! {}", item1.summarize());
     }
 
     // `where` Clauses
-    
+
     // fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) {
 
-    // fn some_function<T, U>(t: &T, u: &U) 
+    // fn some_function<T, U>(t: &T, u: &U)
     // where
     //     T: Display + Clone,
     //     U: Clone + Debug,
     // {
-    
+
     // Returning types that implement traits
     // returns some type that implements the `Summary` trait without naming the concrete type.
-    fn returns_summarizable() -> impl Summary {          // a single type
+    fn returns_summarizable() -> impl Summary {
+        // a single type
         Tweet {
             username: String::from("horse_ebooks"),
             content: String::from("of course, as you probably already know, people"),
@@ -204,7 +205,7 @@ fn main() {
     // 3. Lifetimes
 
     // 3.1. Definition
-    
+
     // Lifetime is the scope for which that reference is valid.
     // Rust requires us to annotate the relationships using generic lifetime parameters
     //     to ensure that actual references used at runtime will definitely be valid.
@@ -215,12 +216,12 @@ fn main() {
     // A borrow checker compares scopes to determine whether all borrows are valid.
 
     // let r;
-    
+
     // {
     //     let x = 5;
     //     r = &x;
     // }
-    
+
     // println!("r: {}", r);
 
     // 3.2. Syntax
@@ -232,7 +233,7 @@ fn main() {
     // 3.3. Lifetime Annotations in Function Signatures
 
     // Lifetime syntax is about connecting the lifetimes of various parameters and return values of functions.
-    // The lifetime of the returned reference is the same as the smaller of the lifetimes of the values referred to by the arguments. 
+    // The lifetime of the returned reference is the same as the smaller of the lifetimes of the values referred to by the arguments.
     // Note: We're not changing the lifetimes of any values passed in or returned.
     fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
         if x.len() > y.len() {
@@ -244,7 +245,7 @@ fn main() {
 
     // When we pass concrete references to `longest`,
     //     the generic lifetime 'a will get the concrete lifetime that is equal to the smaller of the lifetimes of x and y.
-    
+
     // let string1 = String::from("hello");
     // let result;
     // {
@@ -254,7 +255,7 @@ fn main() {
     // println!("The longest string is {}", result);
 
     // The lifetime parameter for the return type needs to match the lifetime parameter for one of the parameters.
-    
+
     // fn longest_2<'a>(x: &str, y: &str) -> &'a str {
     //     let result = String::from("really long string");
     //     result.as_str()
@@ -269,7 +270,7 @@ fn main() {
     let novel = String::from("Call me Ishmael. Some years ago...");
     let first_sentence = novel.split('.').next().expect("Couldn't find a '.'");
     // The instance of `ImportantExcerpt` can't outlive the reference it holds in its `part` field.
-    let i = ImportantExcerpt { 
+    let i = ImportantExcerpt {
         part: first_sentence,
     };
 
@@ -285,7 +286,7 @@ fn main() {
     3rd rule: if there are multiple input lifetime parameters, but one of them is `&self` or `&mut self` because this is a method,
               the lifetime of `self` is assigned to all output lifetime parameters.
     */
-    
+
     /*
     ex1)
     fn first_word(s: &str) -> &str {   =>   PASS
@@ -317,15 +318,11 @@ fn main() {
     `'static`: the affected reference can live for the entire duration of the program.
     */
     let s: &'static str = "I have a static lifetime"; // stored in the program's binary.
-    // In fact, the lifetime of all string literals is `'static`.
+                                                      // In fact, the lifetime of all string literals is `'static`.
 
     // 3.8. Summary
 
-    fn longest_with_an_announcement<'a, T> (
-        x: &'a str,
-        y: &'a str,
-        ann: T,
-    ) -> &'a str
+    fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
     where
         T: Display,
     {
