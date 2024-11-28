@@ -1,0 +1,8 @@
+[package]
+name = "ch19_macros"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# ch19_macros = { path = "../ch19_macros" }
+hello_macro_derive = { path = "../ch19_macros/hello_macro_derive" }
