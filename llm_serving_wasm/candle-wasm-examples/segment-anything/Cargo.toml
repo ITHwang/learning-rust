@@ -3,10 +3,6 @@ name = "candle-wasm-example-sam"
 version.workspace = true
 edition.workspace = true
 description.workspace = true
-repository.workspace = true
-keywords.workspace = true
-categories.workspace = true
-license.workspace = true
 
 [dependencies]
 candle = { workspace = true }
