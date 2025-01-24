@@ -1,4 +1,0 @@
-[workspace]
-
-members = ["inf_server", "models_hf", "embedding_generator"]
-resolver = "2"
